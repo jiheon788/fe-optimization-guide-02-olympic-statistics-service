@@ -38,9 +38,9 @@ $ yarn serve
 
 ## Problems - Solutions
 
-- [ ] Reflow & Repaint - Optimize Animation (Hardware Acceleration)
-- [ ]
-- [ ]
+- [x] Reflow & Repaint - Optimize Animation (Hardware Acceleration)
+- [x] Bundles larger than necessary - Lazy Loading
+- [x] Delay before rendering - Preloading
 - [ ]
 
 ## `Hardware Acceleration`
@@ -100,3 +100,15 @@ function MyComponent() {
   );
 }
 ```
+
+## `Preloading`
+
+컴포넌트 사전 로딩(Preloading)은 사용자의 사용 패턴을 예측하거나 필요성을 미리 인지하고, 해당 컴포넌트를 미리 로딩하는 기술입니다. 이는 사용자가 실제로 해당 컴포넌트에 접근할 때 대기 시간을 줄이고, 애플리케이션의 반응성을 향상시킵니다.
+
+예를 들어, 사용자가 특정 페이지의 버튼에 마우스를 올리는 순간, 그 버튼을 클릭하면 로드되는 다음 페이지의 컴포넌트를 미리 로딩해 놓을 수 있습니다. 그 결과, 사용자가 버튼을 실제로 클릭하면 즉시 다음 페이지가 표시되므로 좋은 사용자 경험을 제공할 수 있습니다.
+
+웹팩(Webpack)과 같은 모듈 번들러를 사용하면, 특정 조건에 따라 컴포넌트를 사전 로딩하는 것이 가능합니다. 예를 들어, 웹팩의 `require.ensure()` API를 사용하면 특정 코드 조각을 별도의 번들로 분리하고, 이를 필요한 시점에 동적으로 로드할 수 있습니다.
+
+React에서는 `React.lazy`를 사용하여 컴포넌트를 동적으로 가져오는 것을 지원하며, 이를 통해 사전 로딩 구현이 가능합니다. 그러나 별도의 라이브러리나 도구를 사용하여 더 세밀한 제어가 필요한 경우도 있습니다. 예를 들어, `react-loadable`이나 `loadable-components`와 같은 라이브러리는 더 많은 옵션과 기능을 제공합니다.
+
+물론, 사전 로딩에는 주의할 점이 있습니다. 너무 많은 컴포넌트를 불필요하게 사전 로딩하면, 초기 로드 시간이 늘어나거나 네트워크 리소스를 낭비할 수 있습니다. 따라서 사전 로딩은 필요하고, 사용자가 곧 사용할 것으로 예상되는 컴포넌트에 대해서만 적절히 사용해야 합니다.

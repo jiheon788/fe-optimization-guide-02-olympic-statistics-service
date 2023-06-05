@@ -6,8 +6,20 @@ import SurveyChart from "./components/SurveyChart";
 import Footer from "./components/Footer";
 import { lazy } from "react";
 import { Suspense } from "react";
+import { useEffect } from "react";
 
+// 1. 지연 로딩
 const LazyImageModal = lazy(() => import("./components/ImageModal"));
+
+// 2. 마우스 버튼에 올라왔을 때 사전 로딩
+// const handleMousseEnter = () => {
+//   const component = import('./components/ImageModal"');
+// };
+
+// 3. 컴포넌트 마운트 완료 후 사전 로딩
+// useEffect(() => {
+//   const component = import('./components/ImageModal"');
+// }, []);
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +29,7 @@ function App() {
       <Header />
       <InfoTable />
       <ButtonModal
+        // onMouseEnter={handleMousseEnter}
         onClick={() => {
           setShowModal(true);
         }}
