@@ -41,7 +41,7 @@ $ yarn serve
 - [x] Reflow & Repaint - Optimize Animation (Hardware Acceleration)
 - [x] Bundles larger than necessary - Lazy Loading
 - [x] Delay before rendering - Preloading
-- [ ]
+- [x] Slow Image loading - Image Preloading
 
 ## `Hardware Acceleration`
 
@@ -75,7 +75,7 @@ Reflow와는 달리, Repaint는 레이아웃 변경이 없으므로 성능에 �
 
 이 두 가지 작업은 최적화에서 중요한 역할을 하는데, 가능한 한 덜 발생시키는 것이 성능 향상에 도움이 됩니다. 예를 들어, CSS 애니메이션을 최적화하려면 transform과 opacity 변경만을 이용하면 됩니다. 이는 이들 변경 사항이 reflow나 repaint를 발생시키지 않기 때문입니다.
 
-## `Lazy Loading`
+## `Component Lazy Loading`
 
 컴포넌트 지연 로딩(Lazy Loading)은 일반적으로 웹 페이지나 애플리케이션의 초기 로딩 시간을 줄이는 데 사용되는 기술입니다. 지연 로딩은 필요한 컴포넌트나 데이터를 바로 로딩하지 않고, 사용자가 해당 컴포넌트나 데이터를 필요로 할 때에만 로딩하는 방법을 의미합니다.
 
@@ -101,7 +101,7 @@ function MyComponent() {
 }
 ```
 
-## `Preloading`
+## `Component Preloading`
 
 컴포넌트 사전 로딩(Preloading)은 사용자의 사용 패턴을 예측하거나 필요성을 미리 인지하고, 해당 컴포넌트를 미리 로딩하는 기술입니다. 이는 사용자가 실제로 해당 컴포넌트에 접근할 때 대기 시간을 줄이고, 애플리케이션의 반응성을 향상시킵니다.
 
@@ -112,3 +112,36 @@ function MyComponent() {
 React에서는 `React.lazy`를 사용하여 컴포넌트를 동적으로 가져오는 것을 지원하며, 이를 통해 사전 로딩 구현이 가능합니다. 그러나 별도의 라이브러리나 도구를 사용하여 더 세밀한 제어가 필요한 경우도 있습니다. 예를 들어, `react-loadable`이나 `loadable-components`와 같은 라이브러리는 더 많은 옵션과 기능을 제공합니다.
 
 물론, 사전 로딩에는 주의할 점이 있습니다. 너무 많은 컴포넌트를 불필요하게 사전 로딩하면, 초기 로드 시간이 늘어나거나 네트워크 리소스를 낭비할 수 있습니다. 따라서 사전 로딩은 필요하고, 사용자가 곧 사용할 것으로 예상되는 컴포넌트에 대해서만 적절히 사용해야 합니다.
+
+## `Image Preloading`
+
+이미지 사전 로딩(preloading)은 웹 페이지가 사용자에게 보여지기 전에 이미지를 미리 로딩하는 기술입니다. 이는 사용자가 해당 이미지를 실제로 보려고 할 때 로딩 지연을 방지하고, 페이지의 전체적인 사용자 경험을 향상시키는 데 도움이 됩니다.
+
+사용자가 웹사이트를 탐색할 때 페이지에 있는 대부분의 이미지를 즉시 볼 수 있도록 이미지를 미리 로딩해 두면 사용자에게 더 빠른 반응성을 제공할 수 있습니다.
+
+이미지 사전 로딩을 구현하는 방법은 여러 가지가 있습니다:
+
+1. JavaScript를 이용한 방법: 이미지 객체를 생성하고 src 속성에 이미지 URL을 설정하여 이미지를 미리 로드할 수 있습니다. 이는 웹 브라우저가 해당 이미지를 캐시에 저장하도록 유도합니다.
+
+```javascript
+var img = new Image();
+img.src = "path/to/image.jpg";
+```
+
+2. HTML <link> 태그를 이용한 방법: HTML5에서는 <link> 태그의 rel 속성을 preload로 설정하여 리소스를 미리 로드하는 것을 지원합니다. 이 방법은 CSS, JavaScript, 이미지 등 다양한 유형의 리소스에 대해 사용할 수 있습니다.
+
+```html
+<link rel="preload" as="image" href="path/to/image.jpg" />
+```
+
+3. CSS의 background-image를 이용한 방법: CSS에서 사용되는 배경 이미지는 페이지 로드 시 자동으로 불러와집니다. 따라서, 필요한 이미지를 사전에 로드하려면 페이지 로딩 시 보이지 않는 요소의 배경 이미지로 설정할 수 있습니다.
+
+```css
+body::after {
+  content: "";
+  background: url(path/to/image.jpg) no-repeat -9999px -9999px;
+  display: none;
+}
+```
+
+이러한 사전 로딩 방법들은 사용자 경험 향상을 위해 사용되지만, 불필요한 데이터 다운로드를 유발할 수 있으므로 신중하게 사용해야 합니다.
